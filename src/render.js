@@ -52,7 +52,7 @@ export function init() {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
         };
-        alert("success"+ coords.latitude);
+        // alert("success"+ coords.latitude);
         getCityByCoords(position.coords);
         getCityList();
     }
@@ -73,7 +73,7 @@ export function init() {
             initMap(coords);
         }
         if (!city) city = "Москва";
-        alert("error");
+        // alert("error");
         createMap(coords, city, true, false);
         getCityList();
     }
@@ -81,7 +81,7 @@ export function init() {
     if (!navigator.geolocation) {
         error();
     } else {
-        navigator.geolocation.watchPosition(success, error, {timeout:60*60000});
+        navigator.geolocation.getCurrentPosition(success, error, {timeout:2000});
     }
 
     function getCityList(){
