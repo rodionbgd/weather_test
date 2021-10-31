@@ -53,7 +53,7 @@ export function init() {
             longitude: position.coords.longitude,
         };
         alert("success"+ coords.latitude);
-        // getCityByCoords(position.coords);
+        getCityByCoords(position.coords);
         getCityList();
     }
 
