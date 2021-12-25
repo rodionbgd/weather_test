@@ -5,8 +5,8 @@ const searchBtn = document.getElementById("search-button");
 export const searchForm = document.getElementById("search-form");
 
 export function getCityByCoords(coords) {
-  alert("coords" + coords.latitude);
-  let latlng = new window.google.maps.LatLng(
+  alert(`coords${coords.latitude}`);
+  const latlng = new window.google.maps.LatLng(
     coords.latitude,
     coords.longitude
   );
@@ -63,7 +63,7 @@ export function getCityByCoords(coords) {
             }
           }
           if (city) {
-            alert("city" + city);
+            alert(`city${city}`);
             createMap(coords, city, true, true);
           }
         }

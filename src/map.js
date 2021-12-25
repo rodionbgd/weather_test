@@ -70,10 +70,10 @@ export function initMap(coords) {
   map.setView([coords.latitude, coords.longitude], ZOOM);
 }
 
-export function createMap(coords, city, renderCity, location) {
+export function createMap(coords, city, renderCity /* , location */) {
   currentCityImg.src = "icons/load.gif";
   if (!city) return;
-  alert(city + " " + renderCity);
+  alert(`${city} ${renderCity}`);
   fetch(
     `https://api.openweathermap.org/data/2.5/onecall` +
       `?lat=${coords.latitude}&lon=${coords.longitude}` +
@@ -84,7 +84,7 @@ export function createMap(coords, city, renderCity, location) {
       const optionsHour = data;
       optionsHour.name = city;
       if (renderCity) {
-          alert(optionsHour.name);
+        alert(optionsHour.name);
         setCurrentCityWeather(optionsHour);
       }
       addCityToList(optionsHour);
