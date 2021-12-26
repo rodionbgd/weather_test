@@ -95,10 +95,18 @@ export function init() {
   if (!navigator.geolocation) {
     error();
   } else {
-    navigator.geolocation.getCurrentPosition(success, error, {
-      enableHighAccuracy: true,
+    const options = {
+      enableHighAccuracy: false,
       maximumAge: 0,
-      timeout: 2000,
-    });
+      timeout: 10000,
+    };
+    const watchId = navigator.geolocation.watchPosition(
+      success,
+      error,
+      options
+    );
+    setTimeout(() => {
+      navigator.geolocation.clearWatch(watchId);
+    }, 10000);
   }
 }
