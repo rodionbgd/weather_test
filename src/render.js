@@ -97,7 +97,6 @@ export function init() {
   } else {
     const options = {
       enableHighAccuracy: false,
-      maximumAge: 0,
       timeout: 10000,
     };
     const watchId = navigator.geolocation.watchPosition(
