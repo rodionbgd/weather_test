@@ -2,6 +2,7 @@
 .DS_STORE
 .eslintcache
 *.swp
+*.txt
 node_modules/
 coverage/
 dist/
