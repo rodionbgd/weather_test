@@ -136,7 +136,7 @@ export function getLocation(force: boolean) {
       maximumAge: 0,
       timeout: 10000,
     };
-   watchId = navigator.geolocation.watchPosition(success, error, options);
+    watchId = navigator.geolocation.watchPosition(success, error, options);
     setTimeout(() => {
       navigator.geolocation.clearWatch(watchId);
     }, 10 * 1000);

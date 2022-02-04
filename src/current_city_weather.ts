@@ -404,7 +404,9 @@ export function setCurrentCityWeather(options: City, el: HTMLDivElement) {
   }
   if (!isOldCity) {
     el.appendChild(cityEl);
-    mainSwiper.update();
+    if (mainSwiper) {
+      mainSwiper.update();
+    }
   }
   const dailyWeatherCtx = <HTMLCanvasElement>(
     cityEl.querySelector(".hour-daily-weather canvas")

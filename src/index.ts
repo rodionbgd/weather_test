@@ -3,11 +3,72 @@ import Swiper, { History, Pagination } from "swiper";
 import { citySlice } from "./reducers/cities";
 import addGoogleScript from "./utils";
 import listeners from "./listeners";
+import { BeforeInstallPromptEvent } from "./types";
 
 Swiper.use([Pagination, History]);
 
 // window.TOUCH = true;
 window.TOUCH = window.matchMedia("(any-hover:none)").matches;
+
+const divInstall = <HTMLDivElement>document.getElementById("installContainer");
+const butInstall = <HTMLButtonElement>document.getElementById("butInstall");
+
+window.addEventListener("beforeinstallprompt", (event) => {
+  // Запрет показа информационной мини-панели на мобильных устройствах.
+  localStorage.clear();
+  alert(`${"👍" + "beforeinstallprompt"}${  event}`);
+  // Убираем событие, чтобы его можно было активировать позже.
+  (event as any).userChoice.then((choiceResult: any) => {
+    alert(choiceResult.outcome); // either "accepted" or "dismissed"
+  });
+  window.deferredPrompt = <BeforeInstallPromptEvent>event;
+  // Убираем класс «hidden» из контейнера кнопки установки.
+  divInstall.classList.toggle("hidden", false);
+});
+
+if (window.location.protocol === "http:") {
+  const requireHTTPS = <HTMLElement>document.getElementById("requireHTTPS");
+  const link = <HTMLAnchorElement>requireHTTPS.querySelector("a");
+  link.href = window.location.href.replace("http://", "https://");
+  requireHTTPS.classList.remove("hidden");
+}
+
+butInstall.addEventListener("click", async () => {
+  console.log("👍", "butInstall-clicked");
+  const promptEvent = window.deferredPrompt;
+  if (!promptEvent) {
+    // Отложенный запрос недоступен.
+    return;
+  }
+  // Показать запрос на установку.
+  await promptEvent.prompt();
+  // Записать результат в журнал.
+  const result = await promptEvent.userChoice;
+  console.log("👍", "userChoice", result);
+  // Сбросить переменную отложенного запроса:
+  // prompt() можно вызвать только один раз.
+  window.deferredPrompt = <BeforeInstallPromptEvent>(<unknown>null);
+  // Скрыть кнопку установки.
+  divInstall.classList.toggle("hidden", true);
+});
+
+window.addEventListener("appinstalled", () => {
+  alert("Thank you for installing our app!");
+  window.deferredPrompt = <BeforeInstallPromptEvent>(<unknown>null);
+});
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((registration) => {
+        console.log("SW registered: ", registration);
+      })
+      .catch((registrationError) => {
+        console.log("SW registration failed: ", registrationError);
+      });
+  });
+}
 
 export const store = configureStore({
   reducer: {

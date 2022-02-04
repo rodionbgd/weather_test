@@ -93,6 +93,26 @@ a:focus {
   margin-left: 0.4em;
 }
 
+.hidden {
+  display: none !important;
+}
+
+#installContainer {
+  position: absolute;
+  top: 5em;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+#installContainer button {
+  background-color: inherit;
+  border: 1px solid white;
+  color: white;
+  font-size: 1em;
+  padding: 0.75em;
+}
+
 .header__title__hover:first-letter {
   display: inline-block;
   background: linear-gradient(to right, #e4f4fe 50%, #1bbaf9 50%);
