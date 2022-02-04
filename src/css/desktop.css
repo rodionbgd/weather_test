@@ -395,7 +395,7 @@ body {
   .section-content {
     width: 100%;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
   }
 
   .current-container {

@@ -3,7 +3,7 @@ name: Deploy to GithubPages
 on:
   push:
     branches:
-      - master
+      - weather_widget
 
 jobs:
   deploy-to-gh-pages:
