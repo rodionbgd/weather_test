@@ -15,42 +15,31 @@ function installApp() {
     const butInstall = <HTMLButtonElement>document.getElementById("butInstall");
 
 
-    window.addEventListener("beforeinstallprompt", (event) => {
-        // Запрет показа информационной мини-панели на мобильных устройствах.
-        event.preventDefault();
-        alert(`${"👍" + "beforeinstallprompt"}${event}`);
-        // Убираем событие, чтобы его можно было активировать позже.
-        (event as any).userChoice.then((choiceResult: any) => {
-            alert(choiceResult.outcome); // either "accepted" or "dismissed"
-        });
-        window.deferredPrompt = <BeforeInstallPromptEvent>event;
-        // Убираем класс «hidden» из контейнера кнопки установки.
-        divInstall.classList.toggle("hidden", false);
+    let deferredPrompt: any;
+
+    window.addEventListener('beforeinstallprompt', function(e) {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
     });
 
-
-    butInstall.addEventListener("click", async () => {
-        console.log("👍", "butInstall-clicked");
-        const promptEvent = window.deferredPrompt;
-        if (!promptEvent) {
-            // Отложенный запрос недоступен.
-            return;
-        }
-        // Показать запрос на установку.
-        await promptEvent.prompt();
-        // Записать результат в журнал.
-        const result = await promptEvent.userChoice;
-        console.log("👍", "userChoice", result);
-        // Сбросить переменную отложенного запроса:
-        // prompt() можно вызвать только один раз.
-        window.deferredPrompt = <BeforeInstallPromptEvent>(<unknown>null);
-        // Скрыть кнопку установки.
-        divInstall.classList.toggle("hidden", true);
-    });
-
-    window.addEventListener("appinstalled", () => {
-        alert("Thank you for installing our app!");
-        window.deferredPrompt = <BeforeInstallPromptEvent>(<unknown>null);
+    // Installation must be done by a user gesture! Here, the button click
+    butInstall.addEventListener('click', (e) => {
+        // hide our user interface that shows our A2HS button
+        butInstall.style.display = 'none';
+        // Show the prompt
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        deferredPrompt.userChoice
+            .then((choiceResult: { outcome: string; }) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the A2HS prompt');
+                } else {
+                    console.log('User dismissed the A2HS prompt');
+                }
+                deferredPrompt = null;
+            });
     });
 
     if ("serviceWorker" in navigator) {
