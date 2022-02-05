@@ -46,7 +46,7 @@ function installApp() {
         window.addEventListener("load", () => {
             navigator.serviceWorker
                 .register("/weather_test/sw.js", {
-                    scope: '/*'
+                    scope: '/weather_test/*'
                 })
                 .then((registration) => {
                     console.log("SW registered: ", registration);
