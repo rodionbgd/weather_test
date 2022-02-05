@@ -12,10 +12,11 @@ window.TOUCH = window.matchMedia("(any-hover:none)").matches;
 
 function installApp() {
     const installApp = <HTMLButtonElement>document.getElementById("install-app");
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
     window.addEventListener('beforeinstallprompt', (event) => {
         // Запрет показа информационной мини-панели на мобильных устройствах.
-        if(!isStandalone) {
+        alert("beforeinstallprompt")
+        if(isStandalone) {
             event.preventDefault();
         }
         // Убираем событие, чтобы его можно было активировать позже.
