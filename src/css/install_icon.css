@@ -1,0 +1,58 @@
+:root {
+    --color-icon: #00fb64;
+    --social-icon1: #e4405f;
+}
+
+.icon-item {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 35%;
+    width: 1rem;
+    z-index: 10;
+}
+
+.icon-link {
+    display: inline-flex;
+    font-size: 3rem;
+    text-decoration: none;
+    color: var(--color-icon);
+    width: 6rem;
+    height: 6rem;
+    transition: .5s linear;
+    position: relative;
+    z-index: 1;
+    margin: auto
+}
+
+.icon-link:hover, .icon-link:active {
+    color: var(--main-color);
+}
+
+.icon-link i {
+    margin: auto;
+}
+
+.icon-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 6rem;
+    height: 6rem;
+    background: var(--color-icon);;
+    border-radius: 50%;
+    z-index: -1;
+    transform: scale(0);
+    transition: 0.3s cubic-bezier(.95, .32, .37, 1.21);
+}
+
+.icon-link:hover::before, .icon-link:active::before {
+    transform: scale(.75);
+}
+
+.icon-item a:hover:before, a:active:before {
+    background: var(--social-icon1);
+}

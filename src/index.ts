@@ -11,42 +11,35 @@ Swiper.use([Pagination, History]);
 window.TOUCH = window.matchMedia("(any-hover:none)").matches;
 
 function installApp() {
-    const divInstall = <HTMLDivElement>document.getElementById("installContainer");
-    const butInstall = <HTMLButtonElement>document.getElementById("butInstall");
+    const installApp = <HTMLButtonElement>document.getElementById("install-app");
 
     window.addEventListener('beforeinstallprompt', (event) => {
         // Запрет показа информационной мини-панели на мобильных устройствах.
         event.preventDefault();
-        console.log('👍', 'beforeinstallprompt', event);
         // Убираем событие, чтобы его можно было активировать позже.
         window.deferredPrompt = <BeforeInstallPromptEvent>event;
-        // Убираем класс «hidden» из контейнера кнопки установки.
-        divInstall.classList.toggle('hidden', false);
+        installApp.style.display = "block";
     });
 
     // Installation must be done by a user gesture! Here, the button click
-    butInstall.addEventListener('click', async () => {
-        console.log('👍', 'butInstall-clicked');
+    installApp.addEventListener('click', async () => {
         const promptEvent = window.deferredPrompt;
         if (!promptEvent) {
-            // Отложенный запрос недоступен.
             return;
         }
         // Показать запрос на установку.
         promptEvent.prompt();
         // Записать результат в журнал.
-        const result = await promptEvent.userChoice;
-        console.log('👍', 'userChoice', result);
-        // Сбросить переменную отложенного запроса:
+        await promptEvent.userChoice;
         // prompt() можно вызвать только один раз.
         window.deferredPrompt =<BeforeInstallPromptEvent><unknown>null;
         // Скрыть кнопку установки.
-        divInstall.classList.toggle('hidden', true);
+        installApp.style.display = "none";
     });
 
     window.addEventListener('appinstalled', (event) => {
         console.log('👍', 'appinstalled', event);
-        // Очистить «deferredPrompt» для сборщика мусора
+        alert("installed");
         window.deferredPrompt =<BeforeInstallPromptEvent><unknown>null;
     });
 

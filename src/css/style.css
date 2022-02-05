@@ -2,7 +2,7 @@
   font-size: 12px;
   box-sizing: border-box;
   --header-color: #535353;
-  --main-color: #d2d2d2;
+  --main-color: #f4f4f4;
 }
 
 *,
@@ -51,7 +51,7 @@ a:focus {
   position: fixed;
   width: 100%;
   height: 100vh;
-  z-index: 100;
+  z-index: 1;
   overflow: visible;
   background: #4a6dc6 url(../images/spinner.gif) no-repeat center center;
 }
@@ -143,6 +143,7 @@ a:focus {
 
 .update-time {
   align-self: end;
+  text-align: right;
   padding: 1em;
   margin-bottom: 0;
 }
@@ -579,28 +580,6 @@ a:focus {
     background: rgba(26, 53, 98, 0.2);
     margin: 0 10px 0 10px;
     border-radius: 5px;
-  }
-
-  .we-pp-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color: var(--input-color);
-    margin: 0 auto;
-    width: 50%;
-    height: 2.5em;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .we-pp-tip {
-    background-color: var(--input-color);
-  }
-
-  .marker {
-    font-size: 1.3rem;
-    text-align: center;
-    color: var(--header-color);
   }
 }
 
