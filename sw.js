@@ -1,5 +1,18 @@
-const CACHE_NAME = "offline";
+const CACHE_NAME = "offline-1";
 const OFFLINE_URL = "404.html";
+
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
+
+import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
+
+const el = document.createElement('pwa-update');
+document.body.appendChild(el);
+
+self.addEventListener("message", (event) => {
+    if (event.data && event.data.type === "SKIP_WAITING") {
+        self.skipWaiting();
+    }
+});
 
 self.addEventListener("install", (event) => {
   console.log("[ServiceWorker] Install");
@@ -32,27 +45,23 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-self.addEventListener("fetch", (event) => {
-  // console.log('[Service Worker] Fetch', event.request.url);
-  if (event.request.mode === "navigate") {
-    event.respondWith(
-      (async () => {
-        try {
-          const preloadResponse = await event.preloadResponse;
-          if (preloadResponse) {
-            return preloadResponse;
-          }
-          return await fetch(event.request);
-        } catch (error) {
-          console.log(
-            "[Service Worker] Fetch failed; returning offline page instead.",
-            error
-          );
+self.addEventListener('fetch', (event) => {
+    if (event.request.mode === 'navigate') {
+        event.respondWith((async () => {
+            try {
+                const preloadResp = await event.preloadResponse;
 
-          const cache = await caches.open(CACHE_NAME);
-          return await cache.match(OFFLINE_URL);
-        }
-      })()
-    );
-  }
+                if (preloadResp) {
+                    return preloadResp;
+                }
+
+                return await fetch(event.request);
+            } catch (error) {
+
+                const cache = await caches.open(CACHE_NAME);
+                return await cache.match(offlineFallbackPage);
+            }
+        })());
+    }
 });
+
