@@ -14,38 +14,46 @@ function installApp() {
     const divInstall = <HTMLDivElement>document.getElementById("installContainer");
     const butInstall = <HTMLButtonElement>document.getElementById("butInstall");
 
-
-    let deferredPrompt: any;
-
-    window.addEventListener('beforeinstallprompt', function(e) {
-        // Prevent Chrome 67 and earlier from automatically showing the prompt
-        e.preventDefault();
-        // Stash the event so it can be triggered later.
-        deferredPrompt = e;
+    window.addEventListener('beforeinstallprompt', (event) => {
+        // Запрет показа информационной мини-панели на мобильных устройствах.
+        event.preventDefault();
+        console.log('👍', 'beforeinstallprompt', event);
+        // Убираем событие, чтобы его можно было активировать позже.
+        window.deferredPrompt = <BeforeInstallPromptEvent>event;
+        // Убираем класс «hidden» из контейнера кнопки установки.
+        divInstall.classList.toggle('hidden', false);
     });
 
     // Installation must be done by a user gesture! Here, the button click
-    butInstall.addEventListener('click', (e) => {
-        // hide our user interface that shows our A2HS button
-        butInstall.style.display = 'none';
-        // Show the prompt
-        deferredPrompt.prompt();
-        // Wait for the user to respond to the prompt
-        deferredPrompt.userChoice
-            .then((choiceResult: { outcome: string; }) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('User accepted the A2HS prompt');
-                } else {
-                    console.log('User dismissed the A2HS prompt');
-                }
-                deferredPrompt = null;
-            });
+    butInstall.addEventListener('click', async () => {
+        console.log('👍', 'butInstall-clicked');
+        const promptEvent = window.deferredPrompt;
+        if (!promptEvent) {
+            // Отложенный запрос недоступен.
+            return;
+        }
+        // Показать запрос на установку.
+        promptEvent.prompt();
+        // Записать результат в журнал.
+        const result = await promptEvent.userChoice;
+        console.log('👍', 'userChoice', result);
+        // Сбросить переменную отложенного запроса:
+        // prompt() можно вызвать только один раз.
+        window.deferredPrompt =<BeforeInstallPromptEvent><unknown>null;
+        // Скрыть кнопку установки.
+        divInstall.classList.toggle('hidden', true);
+    });
+
+    window.addEventListener('appinstalled', (event) => {
+        console.log('👍', 'appinstalled', event);
+        // Очистить «deferredPrompt» для сборщика мусора
+        window.deferredPrompt =<BeforeInstallPromptEvent><unknown>null;
     });
 
     if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
             navigator.serviceWorker
-                .register("/weather_test/sw.js")
+                .register("https://rodionbgd.github.io/weather_test/sw.js")
                 .then((registration) => {
                     console.log("SW registered: ", registration);
                 })
