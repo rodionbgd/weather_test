@@ -1,79 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Weather</title>
-    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon" />
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"/>
     <meta name="theme-color" content="#4285f4">
     <link rel="apple-touch-icon" href="https://via.placeholder.com/144">
-    <link rel="manifest" href="manifest.json" />
+    <link rel="manifest" href="manifest.json"/>
     <script src="https://use.fontawesome.com/b4ab91725e.js"></script>
     <script src="https://kit.fontawesome.com/9b8a7e18a0.js"></script>
-  <script defer src="main.bundle.js"></script><link href="main.css" rel="stylesheet"></head>
-  <body>
-    <h1>InstallableR</h1>
+<script defer src="main.bundle.js"></script><link href="main.css" rel="stylesheet"></head>
+<body>
+<div id="install-app"  class="icon-item">
+    <a class="icon-link"><i class="fas fa-arrow-circle-up"></i></a>
+</div>
 
-    <p id="requireHTTPS" class="hidden">
-      <b>STOP!</b> This page <b>must</b> be served over HTTPS. Please
-      <a>reload this page via HTTPS</a>.
-    </p>
-
-    <p>
-      Make me installable, follow the
-      <a href="https://web.dev/codelab-make-installable/">instructions</a> here.
-    </p>
-
-    <!-- Install button, hidden by default -->
-    <div id="installContainer" class="hidden">
-      <button id="butInstall" type="button">Install</button>
-    </div>
-    <!-- include the Glitch button to show what the webpage is about and
-      to make it easier for folks to view source and remix -->
-    <div
-      class="glitchButton"
-      style="position: fixed; top: 20px; right: 20px"
-    ></div>
-
-    <div id="loading"></div>
-    <div id="bg-container" class="bg-img">
-      <div class="hidden"></div>
-      <div class=""></div>
-    </div>
-    <div id="menu" class="menu">
-      <div class="menu-header">
+<div id="loading"></div>
+<div id="bg-container" class="bg-img">
+    <div class="hidden"></div>
+    <div class=""></div>
+</div>
+<div id="menu" class="menu">
+    <div class="menu-header">
         <div class="menu-header__title">
-          <i
-            id="show-last-city"
-            class="fa fa-arrow-left"
-            aria-hidden="true"
-          ></i>
-          <p>Параметры</p>
+            <i
+                    id="show-last-city"
+                    class="fa fa-arrow-left"
+                    aria-hidden="true"
+            ></i>
+            <p>Параметры</p>
         </div>
         <div class="search_box">
-          <div class="search">
-            <div id="update-location" class="select_area">
-              <i class="fas fa-map-marker-alt map_icon"></i>
+            <div class="search">
+                <div id="update-location" class="select_area">
+                    <i class="fas fa-map-marker-alt map_icon"></i>
+                </div>
+                <form id="search-form" class="text_and-icon">
+                    <input
+                            type="search"
+                            class="search_text"
+                            id="search"
+                            placeholder="Поиск"
+                    />
+                    <i id="search-button" class="fas fa-search search_icon"></i>
+                </form>
             </div>
-            <form id="search-form" class="text_and-icon">
-              <input
-                type="search"
-                class="search_text"
-                id="search"
-                placeholder="Поиск"
-              />
-              <i id="search-button" class="fas fa-search search_icon"></i>
-            </form>
-          </div>
         </div>
-      </div>
-      <div class="ui-content">
+    </div>
+    <div class="ui-content">
         <ul id="menu-city-list" class="menu__city-list"></ul>
-      </div>
     </div>
-    <div id="app" class="swiper main">
-      <div id="city-list" class="swiper-wrapper main-width"></div>
-      <div class="swiper-pagination"></div>
-    </div>
-  </body>
+</div>
+<div id="app" class="swiper main">
+    <div id="city-list" class="swiper-wrapper main-width"></div>
+    <div class="swiper-pagination"></div>
+</div>
+</body>
 </html>

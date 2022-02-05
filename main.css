@@ -51,7 +51,7 @@
   .swiper-wrapper {
     position: relative;
     max-width: 100%;
-    z-index: 100;
+    z-index: 1;
     display: flex;
     transition-property: transform;
     box-sizing: inherit;
@@ -270,7 +270,7 @@
   .slider {
     display: flex;
     width: var(--slider-width);
-    z-index: 100;
+    z-index: 10;
     font-size: 1.1rem;
     padding: 0.5em 0;
   }
@@ -317,7 +317,7 @@
   .slider {
     display: flex;
     width: var(--slider-width);
-    z-index: 1000;
+    z-index: 10;
     font-size: 1.1rem;
     padding: 0.5em 0;
   }
@@ -399,7 +399,7 @@
   font-size: 12px;
   box-sizing: border-box;
   --header-color: #535353;
-  --main-color: #d2d2d2;
+  --main-color: #f4f4f4;
 }
 
 *,
@@ -448,7 +448,7 @@ a:focus {
   position: fixed;
   width: 100%;
   height: 100vh;
-  z-index: 100;
+  z-index: 1;
   overflow: visible;
   background: #4a6dc6 url(1197a2e2549c82db3ea1.gif) no-repeat center center;
 }
@@ -540,6 +540,7 @@ a:focus {
 
 .update-time {
   align-self: end;
+  text-align: right;
   padding: 1em;
   margin-bottom: 0;
 }
@@ -977,28 +978,6 @@ a:focus {
     margin: 0 10px 0 10px;
     border-radius: 5px;
   }
-
-  .we-pp-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color: var(--input-color);
-    margin: 0 auto;
-    width: 50%;
-    height: 2.5em;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .we-pp-tip {
-    background-color: var(--input-color);
-  }
-
-  .marker {
-    font-size: 1.3rem;
-    text-align: center;
-    color: var(--header-color);
-  }
 }
 
 .footer {
@@ -1134,7 +1113,7 @@ a:focus {
     width: 100%;
     font-size: 1.5em;
     overflow: hidden;
-    z-index: 100;
+    z-index: 1;
   }
 
   .sun-moon-phase-descr > * {
@@ -3212,7 +3191,7 @@ a:focus {
       rgba(190, 190, 190, 0.3),
       rgba(79, 79, 79, 0.9)
     ),
-    url(4f27357a75ef09318760.gif);
+    url(542ce0be1946fb57232f.gif);
   background-size: cover;
 }
 
@@ -3524,7 +3503,7 @@ a:focus {
   \****************************************************************************/
 @media (hover: none) and (pointer: coarse) {
   .pac-container {
-    z-index: 1000 !important;
+    z-index: 100 !important;
     width: auto !important;
     /*position: a !important;*/
     left: 0 !important;
@@ -3577,3 +3556,64 @@ a:focus {
   display: none;
 }
 
+/*!****************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/css/install_icon.css ***!
+  \****************************************************************************/
+:root {
+    --color-icon: #00fb64;
+    --social-icon1: #e4405f;
+}
+
+.icon-item {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 35%;
+    width: 1rem;
+    z-index: 10;
+}
+
+.icon-link {
+    display: inline-flex;
+    font-size: 3rem;
+    text-decoration: none;
+    color: var(--color-icon);
+    width: 6rem;
+    height: 6rem;
+    transition: .5s linear;
+    position: relative;
+    z-index: 1;
+    margin: auto
+}
+
+.icon-link:hover, .icon-link:active {
+    color: var(--main-color);
+}
+
+.icon-link i {
+    margin: auto;
+}
+
+.icon-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 6rem;
+    height: 6rem;
+    background: var(--color-icon);;
+    border-radius: 50%;
+    z-index: -1;
+    transform: scale(0);
+    transition: 0.3s cubic-bezier(.95, .32, .37, 1.21);
+}
+
+.icon-link:hover::before, .icon-link:active::before {
+    transform: scale(.75);
+}
+
+.icon-item a:hover:before, a:active:before {
+    background: var(--social-icon1);
+}
