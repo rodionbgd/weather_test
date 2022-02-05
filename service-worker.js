@@ -292,13 +292,13 @@ define(['./workbox-37481be9'], (function (workbox) { 'use strict';
     "revision": "13965b69dc8769215bc0532ed622c0e2"
   }, {
     "url": "main.bundle.js",
-    "revision": "6227ce83a7dd7867da73d319a7e77965"
+    "revision": "76a6abb5804e8dcf958dc2c4e40ce8fc"
   }, {
     "url": "main.css",
     "revision": "beb46974a0b163c733055ad5d4e0c621"
   }, {
     "url": "manifest.json",
-    "revision": "e5423148bc3d57fda3c3fc747b31680d"
+    "revision": "99db9a390ea029e3edd084e0500503ba"
   }, {
     "url": "sw.js",
     "revision": "dda5630262af20974b8d6a910e17b894"
