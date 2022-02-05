@@ -5,6 +5,12 @@
   "icons": [
     {
       "src": "https://via.placeholder.com/48",
+      "sizes": "196x196",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://via.placeholder.com/48",
       "sizes": "48x48",
       "type": "image/png"
     },
