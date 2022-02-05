@@ -12,10 +12,12 @@ window.TOUCH = window.matchMedia("(any-hover:none)").matches;
 
 function installApp() {
     const installApp = <HTMLButtonElement>document.getElementById("install-app");
-
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches
     window.addEventListener('beforeinstallprompt', (event) => {
         // Запрет показа информационной мини-панели на мобильных устройствах.
-        event.preventDefault();
+        if(!isStandalone) {
+            event.preventDefault();
+        }
         // Убираем событие, чтобы его можно было активировать позже.
         window.deferredPrompt = <BeforeInstallPromptEvent>event;
         installApp.style.display = "block";
@@ -32,7 +34,7 @@ function installApp() {
         // Записать результат в журнал.
         await promptEvent.userChoice;
         // prompt() можно вызвать только один раз.
-        window.deferredPrompt =<BeforeInstallPromptEvent><unknown>null;
+        window.deferredPrompt = <BeforeInstallPromptEvent><unknown>null;
         // Скрыть кнопку установки.
         installApp.style.display = "none";
     });
@@ -40,7 +42,7 @@ function installApp() {
     window.addEventListener('appinstalled', (event) => {
         console.log('👍', 'appinstalled', event);
         alert("installed");
-        window.deferredPrompt =<BeforeInstallPromptEvent><unknown>null;
+        window.deferredPrompt = <BeforeInstallPromptEvent><unknown>null;
     });
 
     if ("serviceWorker" in navigator) {
