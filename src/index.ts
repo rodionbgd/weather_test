@@ -22,26 +22,27 @@ function installApp() {
         window.deferredPrompt = <BeforeInstallPromptEvent>event;
         installApp.style.display = "block";
     });
+    if(!isStandalone) {
+        window.dispatchEvent(new Event("beforeinstallprompt"));
+    }
 
     // Installation must be done by a user gesture! Here, the button click
     installApp.addEventListener('click', async () => {
+        installApp.style.display = "none";
         const promptEvent = window.deferredPrompt;
         if (!promptEvent) {
             return;
         }
         // Показать запрос на установку.
-        promptEvent.prompt();
+        await promptEvent.prompt();
         // Записать результат в журнал.
         await promptEvent.userChoice;
         // prompt() можно вызвать только один раз.
         window.deferredPrompt = <BeforeInstallPromptEvent><unknown>null;
         // Скрыть кнопку установки.
-        installApp.style.display = "none";
     });
 
     window.addEventListener('appinstalled', (event) => {
-        console.log('👍', 'appinstalled', event);
-        alert("installed");
         window.deferredPrompt = <BeforeInstallPromptEvent><unknown>null;
     });
 

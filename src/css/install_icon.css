@@ -51,6 +51,7 @@
 
 .icon-link:hover::before, .icon-link:active::before {
     transform: scale(.75);
+    transition: transform .5s;
 }
 
 .icon-item a:hover:before, a:active:before {
