@@ -60,7 +60,7 @@ window.addEventListener("beforeinstallprompt", (event) => {
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
-      .register("/sw.js")
+      .register("/weather_test/sw.js")
       .then((registration) => {
         console.log("SW registered: ", registration);
       })
