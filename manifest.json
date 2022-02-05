@@ -34,7 +34,7 @@
       "type": "image/png"
     }
   ],
-  "start_url": "/",
+  "start_url": "/weather_test/",
   "background_color": "#3367D6",
   "display": "standalone",
   "scope": "/",
