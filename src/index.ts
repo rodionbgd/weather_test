@@ -11,37 +11,7 @@ Swiper.use([Pagination, History]);
 window.TOUCH = window.matchMedia("(any-hover:none)").matches;
 
 const divInstall = <HTMLDivElement>document.getElementById("installContainer");
-const btnAdd = <HTMLButtonElement>document.getElementById("butInstall");
-
-
-let deferredPrompt: any;
-
-window.addEventListener('beforeinstallprompt', function(event) {
-  // Prevent Chrome 67 and earlier from automatically showing the prompt
-  event.preventDefault();
-  // Stash the event so it can be triggered later.
-  deferredPrompt = event;
-});
-
-// Installation must be done by a user gesture! Here, the button click
-btnAdd.addEventListener('click', (event) => {
-  // hide our user interface that shows our A2HS button
-  btnAdd.style.display = 'none';
-  // Show the prompt
-  deferredPrompt.prompt();
-  // Wait for the user to respond to the prompt
-  deferredPrompt.userChoice
-      .then((choiceResult:any) => {
-        if (choiceResult.outcome === 'accepted') {
-          alert('User accepted the A2HS prompt');
-        } else {
-          alert('User dismissed the A2HS prompt');
-        }
-        deferredPrompt = null;
-      });
-  divInstall.classList.toggle("hidden", false);
-});
-
+const butInstall = <HTMLButtonElement>document.getElementById("butInstall");
 
 window.addEventListener("beforeinstallprompt", (event) => {
   // Запрет показа информационной мини-панели на мобильных устройствах.
@@ -56,11 +26,41 @@ window.addEventListener("beforeinstallprompt", (event) => {
   divInstall.classList.toggle("hidden", false);
 });
 
+if (window.location.protocol === "http:") {
+  const requireHTTPS = <HTMLElement>document.getElementById("requireHTTPS");
+  const link = <HTMLAnchorElement>requireHTTPS.querySelector("a");
+  link.href = window.location.href.replace("http://", "https://");
+  requireHTTPS.classList.remove("hidden");
+}
+
+butInstall.addEventListener("click", async () => {
+  console.log("👍", "butInstall-clicked");
+  const promptEvent = window.deferredPrompt;
+  if (!promptEvent) {
+    // Отложенный запрос недоступен.
+    return;
+  }
+  // Показать запрос на установку.
+  await promptEvent.prompt();
+  // Записать результат в журнал.
+  const result = await promptEvent.userChoice;
+  console.log("👍", "userChoice", result);
+  // Сбросить переменную отложенного запроса:
+  // prompt() можно вызвать только один раз.
+  window.deferredPrompt = <BeforeInstallPromptEvent>(<unknown>null);
+  // Скрыть кнопку установки.
+  divInstall.classList.toggle("hidden", true);
+});
+
+window.addEventListener("appinstalled", () => {
+  alert("Thank you for installing our app!");
+  window.deferredPrompt = <BeforeInstallPromptEvent>(<unknown>null);
+});
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
-      .register("/weather_test/sw.js")
+      .register("/sw.js")
       .then((registration) => {
         console.log("SW registered: ", registration);
       })
