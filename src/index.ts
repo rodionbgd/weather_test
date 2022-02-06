@@ -7,8 +7,8 @@ import {BeforeInstallPromptEvent} from "./types";
 
 Swiper.use([Pagination, History]);
 
-// window.TOUCH = true;
-window.TOUCH = window.matchMedia("(any-hover:none)").matches;
+window.TOUCH = true;
+// window.TOUCH = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
 function installApp() {
     const installApp = <HTMLButtonElement>document.getElementById("install-app");
@@ -16,14 +16,14 @@ function installApp() {
     window.addEventListener('beforeinstallprompt', (event) => {
         // Запрет показа информационной мини-панели на мобильных устройствах.
         // alert("beforeinstallprompt")
-        if(isStandalone) {
+        if (isStandalone) {
             event.preventDefault();
         }
         // Убираем событие, чтобы его можно было активировать позже.
         window.deferredPrompt = <BeforeInstallPromptEvent>event;
         installApp.style.display = "block";
     });
-    if(!isStandalone) {
+    if (!isStandalone) {
         window.dispatchEvent(new Event("beforeinstallprompt"));
     }
 
