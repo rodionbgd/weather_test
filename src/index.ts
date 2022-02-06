@@ -1,70 +1,96 @@
-import {configureStore} from "@reduxjs/toolkit";
-import Swiper, {History, Pagination} from "swiper";
-import {citySlice} from "./reducers/cities";
+import { configureStore } from "@reduxjs/toolkit";
+import Swiper, { History, Pagination } from "swiper";
+import { citySlice } from "./reducers/cities";
 import addGoogleScript from "./utils";
 import listeners from "./listeners";
-import {BeforeInstallPromptEvent} from "./types";
+import { BeforeInstallPromptEvent } from "./types";
 
 Swiper.use([Pagination, History]);
 
 window.TOUCH = true;
+
 // window.TOUCH = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
 function installApp() {
     const installAppEl = <HTMLButtonElement>document.getElementById("install-app");
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-    window.addEventListener('beforeinstallprompt', (event) => {
-        // Запрет показа информационной мини-панели на мобильных устройствах.
-        // alert("beforeinstallprompt")
-        if (isStandalone) {
-            event.preventDefault();
-        }
-        // Убираем событие, чтобы его можно было активировать позже.
-        window.deferredPrompt = <BeforeInstallPromptEvent>event;
-        installAppEl.style.display = "block";
+    const isStandalone = window.matchMedia("(display-mode: standalone)").matches;
+
+    let promptEvent: BeforeInstallPromptEvent;
+
+    // present install prompt to user
+    async function presentAddToHome() {
+        await promptEvent.prompt();  // Wait for the user to respond to the prompt
+        await promptEvent.userChoice;
+        promptEvent  = <BeforeInstallPromptEvent><unknown>null;
+    }
+
+    function listenToUserAction() {
+        installAppEl.addEventListener("click", presentAddToHome);
+    }
+
+    // Capture event and defer
+    window.addEventListener("beforeinstallprompt", (e: Event) => {
+        e.preventDefault();
+        promptEvent = <BeforeInstallPromptEvent>e;
+        listenToUserAction();
     });
+
     if (!isStandalone) {
         window.dispatchEvent(new Event("beforeinstallprompt"));
     }
 
-    // Installation must be done by a user gesture! Here, the button click
-    installAppEl.addEventListener('click', async () => {
-        installAppEl.style.display = "none";
-        const promptEvent = window.deferredPrompt;
-        if (!promptEvent) {
-            return;
-        }
-        // Показать запрос на установку.
-        await promptEvent.prompt();
-        // Записать результат в журнал.
-        await promptEvent.userChoice;
-        // prompt() можно вызвать только один раз.
-        window.deferredPrompt = <BeforeInstallPromptEvent><unknown>null;
-        // Скрыть кнопку установки.
-    });
 
-    window.addEventListener('appinstalled', (event) => {
+
+    // window.addEventListener("beforeinstallprompt", (event) => {
+    //   // Запрет показа информационной мини-панели на мобильных устройствах.
+    //   // alert("beforeinstallprompt")
+    //   if (isStandalone) {
+    //     event.preventDefault();
+    //   }
+    //   // Убираем событие, чтобы его можно было активировать позже.
+    //   window.deferredPrompt = <BeforeInstallPromptEvent>event;
+    //   installAppEl.style.display = "block";
+    // });
+
+
+    // Installation must be done by a user gesture! Here, the button click
+    // installAppEl.addEventListener("click", async () => {
+    //   installAppEl.style.display = "none";
+    //   const promptEvent = window.deferredPrompt;
+    //   if (!promptEvent) {
+    //     return;
+    //   }
+    //   // Показать запрос на установку.
+    //   await promptEvent.prompt();
+    //   // Записать результат в журнал.
+    //   await promptEvent.userChoice;
+    //   // prompt() можно вызвать только один раз.
+    //   window.deferredPrompt = <BeforeInstallPromptEvent><unknown>null;
+    //   // Скрыть кнопку установки.
+    // });
+
+    window.addEventListener("appinstalled", (event) => {
         window.deferredPrompt = <BeforeInstallPromptEvent><unknown>null;
     });
 
     if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
             navigator.serviceWorker
-                .register("https://rodionbgd.github.io/weather_test/sw.js")
-                .then((registration) => {
-                    console.log("SW registered: ", registration);
-                })
-                .catch((registrationError) => {
-                    console.log("SW registration failed: ", registrationError);
-                });
+              .register("https://rodionbgd.github.io/weather_test/sw.js")
+              .then((registration) => {
+                  console.log("SW registered: ", registration);
+              })
+              .catch((registrationError) => {
+                  console.log("SW registration failed: ", registrationError);
+              });
         });
     }
 }
 
 export const store = configureStore({
     reducer: {
-        cities: citySlice.reducer,
-    },
+        cities: citySlice.reducer
+    }
 });
 
 export let mainSwiper: Swiper;
@@ -83,42 +109,42 @@ export function createSwiper() {
         pagination: {
             el: ".swiper-pagination",
             dynamicBullets: true,
-            dynamicMainBullets: 3,
+            dynamicMainBullets: 3
         },
-        watchOverflow: true,
+        watchOverflow: true
         // history: {
         //     key: "city",
         //     root: originLocation,
         // },
     });
     mainSwiper.on("slideChange", () => {
-        const {cities} = store.getState();
+        const { cities } = store.getState();
         const currentSlide = <HTMLElement>cityListEl.children[mainSwiper.realIndex];
         const currentCity = cities.filter(
-            (city) => city.name === currentSlide.dataset.name
+          (city) => city.name === currentSlide.dataset.name
         )[0];
         const imgList = Array.from(bgContainer.children);
         const isSameWeather = imgList.filter(
-            (el) =>
-                el.className === `bg-${currentCity.weather.current.weather[0].icon}`
+          (el) =>
+            el.className === `bg-${currentCity.weather.current.weather[0].icon}`
         ).length;
         if (isSameWeather) {
             return;
         }
         Array.from(bgContainer.children as unknown as HTMLDivElement[]).forEach(
-            (img) => {
-                img.classList.toggle("hidden");
-                img.classList.remove("default-bg");
-                if (img.classList.contains("hidden")) {
-                    img.style.setProperty("opacity", "0");
-                } else {
-                    img.style.setProperty("opacity", "1");
-                    img.setAttribute(
-                        "class",
-                        `bg-${currentCity.weather.current.weather[0].icon}`
-                    );
-                }
-            }
+          (img) => {
+              img.classList.toggle("hidden");
+              img.classList.remove("default-bg");
+              if (img.classList.contains("hidden")) {
+                  img.style.setProperty("opacity", "0");
+              } else {
+                  img.style.setProperty("opacity", "1");
+                  img.setAttribute(
+                    "class",
+                    `bg-${currentCity.weather.current.weather[0].icon}`
+                  );
+              }
+          }
         );
     });
 }
