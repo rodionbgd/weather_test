@@ -127,7 +127,8 @@ a:focus {
 }
 
 .update-time {
-  align-self: flex-end;
+  align-self: end;
+  text-align: right;
   padding: 1em;
   margin-bottom: 0;
 }

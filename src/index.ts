@@ -14,21 +14,24 @@ function installApp() {
     const installAppEl = <HTMLButtonElement>document.getElementById("install-app");
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
     window.addEventListener('beforeinstallprompt', (event) => {
+        // Запрет показа информационной мини-панели на мобильных устройствах.
+        // alert("beforeinstallprompt")
         if (isStandalone) {
             event.preventDefault();
         }
+        // Убираем событие, чтобы его можно было активировать позже.
         window.deferredPrompt = <BeforeInstallPromptEvent>event;
         installAppEl.style.display = "block";
     });
-
     if (!isStandalone) {
-      window.dispatchEvent(new Event("beforeinstallprompt"));
+        window.dispatchEvent(new Event("beforeinstallprompt"));
     }
+
     // Installation must be done by a user gesture! Here, the button click
     installAppEl.addEventListener('click', async () => {
+        installAppEl.style.display = "none";
         const promptEvent = window.deferredPrompt;
         if (!promptEvent) {
-            installAppEl.style.display = "none";
             return;
         }
         // Показать запрос на установку.
@@ -37,7 +40,6 @@ function installApp() {
         await promptEvent.userChoice;
         // prompt() можно вызвать только один раз.
         window.deferredPrompt = <BeforeInstallPromptEvent><unknown>null;
-        installAppEl.style.display = "none";
         // Скрыть кнопку установки.
     });
 
@@ -76,6 +78,7 @@ export let showCity: HTMLDivElement;
 export let updateLocation: HTMLElement;
 
 export function createSwiper() {
+    // const originLocation = window.location.origin;
     mainSwiper = new Swiper(".swiper", {
         pagination: {
             el: ".swiper-pagination",
@@ -83,6 +86,10 @@ export function createSwiper() {
             dynamicMainBullets: 3,
         },
         watchOverflow: true,
+        // history: {
+        //     key: "city",
+        //     root: originLocation,
+        // },
     });
     mainSwiper.on("slideChange", () => {
         const {cities} = store.getState();

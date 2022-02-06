@@ -26,7 +26,7 @@ import {
 } from "./index";
 import { setCityList } from "./reducers/cities";
 import { preload } from "./utils";
-import { City, LOCATION } from "./types";
+import { LOCATION } from "./types";
 
 import { setCurrentCityWeather } from "./current_city_weather";
 import { getCityList, getLocation } from "./get_city";
@@ -40,7 +40,7 @@ export function createSubscriber() {
   if (!cityListEl.children.length) {
     preload(1);
     if (window.TOUCH) {
-      cities.forEach((city: City) => {
+      cities.forEach((city) => {
         setCurrentCityWeather(city, cityListEl);
       });
     }
