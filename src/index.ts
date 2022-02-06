@@ -7,8 +7,8 @@ import {BeforeInstallPromptEvent} from "./types";
 
 Swiper.use([Pagination, History]);
 
-window.TOUCH = true;
-// window.TOUCH = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+// window.TOUCH = true;
+window.TOUCH = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
 function installApp() {
     const installApp = <HTMLButtonElement>document.getElementById("install-app");
@@ -28,16 +28,13 @@ function installApp() {
             return;
         }
         // Показать запрос на установку.
-        try {
+        if (Object.hasOwnProperty.call(promptEvent, "prompt") && Object.hasOwnProperty.call(promptEvent, "userChoice")) {
             await promptEvent.prompt();
             // Записать результат в журнал.
             await promptEvent.userChoice;
-            // prompt() можно вызвать только один раз.
-            window.deferredPrompt = <BeforeInstallPromptEvent><unknown>null;
+            // prompt() можно вызвать только один раз.}
         }
-        catch (e){
-            console.error(e);
-        }
+        window.deferredPrompt = <BeforeInstallPromptEvent><unknown>null;
         installApp.style.display = "none";
         // Скрыть кнопку установки.
     });
@@ -50,9 +47,6 @@ function installApp() {
         window.addEventListener("load", () => {
             navigator.serviceWorker
                 .register("https://rodionbgd.github.io/weather_test/sw.js")
-                .then((registration) => {
-                    console.log("SW registered: ", registration);
-                })
                 .catch((registrationError) => {
                     console.log("SW registration failed: ", registrationError);
                 });
