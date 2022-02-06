@@ -15,7 +15,7 @@ function installApp() {
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
     window.addEventListener('beforeinstallprompt', (event) => {
         // Запрет показа информационной мини-панели на мобильных устройствах.
-        alert("beforeinstallprompt")
+        // alert("beforeinstallprompt")
         if(isStandalone) {
             event.preventDefault();
         }
