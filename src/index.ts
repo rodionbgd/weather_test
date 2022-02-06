@@ -73,6 +73,14 @@ export let updateLocation: HTMLElement;
 
 export function createSwiper() {
     // const originLocation = window.location.origin;
+    Array.from(bgContainer.children).forEach((img) => {
+        (img as HTMLElement).style.position = "fixed";
+        (img as HTMLElement).style.opacity = "1";
+        (img as HTMLElement).style.transition = "opacity 1s linear";
+        (img as HTMLElement).style.width = "100%";
+        (img as HTMLElement).style.height = "100%";
+        (img as HTMLElement).style.backgroundSize = "cover";
+    });
     mainSwiper = new Swiper(".swiper", {
         pagination: {
             el: ".swiper-pagination",
