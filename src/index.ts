@@ -19,8 +19,8 @@ function installApp() {
 
   // present install prompt to user
   async function presentAddToHome() {
-    promptEvent.prompt();
-    promptEvent.userChoice
+   await promptEvent.prompt();
+    await promptEvent.userChoice
       .then(choiceResult => {
         if (choiceResult.outcome === "accepted") {
           console.log("user accepted A2HS prompt");
