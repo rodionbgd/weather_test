@@ -1,6 +1,6 @@
 {
   "name": "weather",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Online weather forecast",
   "main": "src/index.ts",
   "scripts": {
@@ -11,7 +11,7 @@
     "dev": "webpack serve --https --node-env development --history-api-fallback",
     "build": "webpack --node-env development",
     "start": "http-server dist",
-    "version": "auto-changelog  --tag-pattern .+ --hide-credit && git add CHANGELOG.md && git commit -am \"changelog update\" && git push"
+    "version": "auto-changelog  --tag-pattern .+ --hide-credit && git add CHANGELOG.md && git commit -am \"changelog update\" && git push origin"
   },
   "husky": {
     "hooks": {
