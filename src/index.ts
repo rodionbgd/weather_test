@@ -11,20 +11,24 @@ window.TOUCH = true;
 // window.TOUCH = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
 function installApp() {
-    const installApp = <HTMLButtonElement>document.getElementById("install-app");
+    const installAppEl = <HTMLButtonElement>document.getElementById("install-app");
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
     window.addEventListener('beforeinstallprompt', (event) => {
         if (isStandalone) {
             event.preventDefault();
         }
         window.deferredPrompt = <BeforeInstallPromptEvent>event;
-        installApp.style.display = "block";
+        installAppEl.style.display = "block";
     });
+
+    if (!isStandalone) {
+      window.dispatchEvent(new Event("beforeinstallprompt"));
+    }
     // Installation must be done by a user gesture! Here, the button click
-    installApp.addEventListener('click', async () => {
+    installAppEl.addEventListener('click', async () => {
         const promptEvent = window.deferredPrompt;
         if (!promptEvent) {
-            installApp.style.display = "none";
+            installAppEl.style.display = "none";
             return;
         }
         // Показать запрос на установку.
@@ -33,7 +37,7 @@ function installApp() {
         await promptEvent.userChoice;
         // prompt() можно вызвать только один раз.
         window.deferredPrompt = <BeforeInstallPromptEvent><unknown>null;
-        installApp.style.display = "none";
+        installAppEl.style.display = "none";
         // Скрыть кнопку установки.
     });
 
@@ -72,15 +76,6 @@ export let showCity: HTMLDivElement;
 export let updateLocation: HTMLElement;
 
 export function createSwiper() {
-    // const originLocation = window.location.origin;
-    Array.from(bgContainer.children).forEach((img) => {
-        (img as HTMLElement).style.position = "fixed";
-        (img as HTMLElement).style.opacity = "1";
-        (img as HTMLElement).style.transition = "opacity 1s linear";
-        (img as HTMLElement).style.width = "100%";
-        (img as HTMLElement).style.height = "100%";
-        (img as HTMLElement).style.backgroundSize = "cover";
-    });
     mainSwiper = new Swiper(".swiper", {
         pagination: {
             el: ".swiper-pagination",
@@ -88,10 +83,6 @@ export function createSwiper() {
             dynamicMainBullets: 3,
         },
         watchOverflow: true,
-        // history: {
-        //     key: "city",
-        //     root: originLocation,
-        // },
     });
     mainSwiper.on("slideChange", () => {
         const {cities} = store.getState();
