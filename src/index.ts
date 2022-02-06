@@ -7,96 +7,14 @@ import { BeforeInstallPromptEvent } from "./types";
 
 Swiper.use([Pagination, History]);
 
-window.TOUCH = true;
-
-// window.TOUCH = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-
-function installApp() {
-  const installAppEl = <HTMLButtonElement>document.getElementById("install-app");
-  const isStandalone = window.matchMedia("(display-mode: standalone)").matches;
-
-  let promptEvent: BeforeInstallPromptEvent;
-
-  // present install prompt to user
-  async function presentAddToHome() {
-   await promptEvent.prompt();
-    await promptEvent.userChoice
-      .then(choiceResult => {
-        if (choiceResult.outcome === "accepted") {
-          console.log("user accepted A2HS prompt");
-        } else {
-          console.log("user dismissed A2HS prompt");
-        }
-        promptEvent =<BeforeInstallPromptEvent><unknown> null;
-      });
-  }
-
-  function listenToUserAction() {
-    installAppEl.addEventListener("click", presentAddToHome);
-  }
-
-  // Capture event and defer
-  window.addEventListener("beforeinstallprompt", (e: Event) => {
-    e.preventDefault();
-    promptEvent = <BeforeInstallPromptEvent>e;
-    listenToUserAction();
-  });
-
-  if (!isStandalone) {
-    window.dispatchEvent(new Event("beforeinstallprompt"));
-  }
-
-
-  // window.addEventListener("beforeinstallprompt", (event) => {
-  //   // Запрет показа информационной мини-панели на мобильных устройствах.
-  //   // alert("beforeinstallprompt")
-  //   if (isStandalone) {
-  //     event.preventDefault();
-  //   }
-  //   // Убираем событие, чтобы его можно было активировать позже.
-  //   window.deferredPrompt = <BeforeInstallPromptEvent>event;
-  //   installAppEl.style.display = "block";
-  // });
-
-
-  // Installation must be done by a user gesture! Here, the button click
-  // installAppEl.addEventListener("click", async () => {
-  //   installAppEl.style.display = "none";
-  //   const promptEvent = window.deferredPrompt;
-  //   if (!promptEvent) {
-  //     return;
-  //   }
-  //   // Показать запрос на установку.
-  //   await promptEvent.prompt();
-  //   // Записать результат в журнал.
-  //   await promptEvent.userChoice;
-  //   // prompt() можно вызвать только один раз.
-  //   window.deferredPrompt = <BeforeInstallPromptEvent><unknown>null;
-  //   // Скрыть кнопку установки.
-  // });
-
-  window.addEventListener("appinstalled", (event) => {
-    window.deferredPrompt = <BeforeInstallPromptEvent><unknown>null;
-  });
-
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker
-        .register("https://rodionbgd.github.io/weather_test/sw.js")
-        .then((registration) => {
-          console.log("SW registered: ", registration);
-        })
-        .catch((registrationError) => {
-          console.log("SW registration failed: ", registrationError);
-        });
-    });
-  }
-}
+// window.TOUCH = true;
+window.TOUCH = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+window.standalone = window.matchMedia("(display-mode: standalone)").matches;
 
 export const store = configureStore({
   reducer: {
-    cities: citySlice.reducer
-  }
+    cities: citySlice.reducer,
+  },
 });
 
 export let mainSwiper: Swiper;
@@ -109,15 +27,59 @@ export let cityListEl: HTMLDivElement;
 export let showCity: HTMLDivElement;
 export let updateLocation: HTMLElement;
 
+function installApp() {
+  const installAppEl = <HTMLButtonElement>(
+    document.getElementById("install-app")
+  );
+  if (window.standalone && window.TOUCH) {
+    menuCityList.classList.add("menu__city-list_standalone");
+  }
+  window.addEventListener("beforeinstallprompt", (event) => {
+    if (window.standalone) {
+      event.preventDefault();
+    }
+    window.deferredPrompt = <BeforeInstallPromptEvent>event;
+    installAppEl.style.display = "block";
+  });
+  installAppEl.addEventListener("click", async () => {
+    const promptEvent = window.deferredPrompt;
+    if (!promptEvent) {
+      installAppEl.style.display = "none";
+      return;
+    }
+    if (
+      Object.hasOwnProperty.call(promptEvent, "prompt") &&
+      Object.hasOwnProperty.call(promptEvent, "userChoice")
+    ) {
+      await promptEvent.prompt();
+      await promptEvent.userChoice;
+    }
+    window.deferredPrompt = <BeforeInstallPromptEvent>(<unknown>null);
+    installAppEl.style.display = "none";
+  });
+
+  window.addEventListener("appinstalled", () => {
+    window.deferredPrompt = <BeforeInstallPromptEvent>(<unknown>null);
+  });
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register(
+        "https://rodionbgd.github.io/weather_test/sw.js"
+      );
+    });
+  }
+}
 export function createSwiper() {
   // const originLocation = window.location.origin;
+
   mainSwiper = new Swiper(".swiper", {
     pagination: {
       el: ".swiper-pagination",
       dynamicBullets: true,
-      dynamicMainBullets: 3
+      dynamicMainBullets: 3,
     },
-    watchOverflow: true
+    watchOverflow: true,
     // history: {
     //     key: "city",
     //     root: originLocation,
