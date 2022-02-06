@@ -1,4 +1,4 @@
-const CACHE_NAME = "offline-5";
+const CACHE_NAME = "cache-v1";
 const OFFLINE_URL = "404.html";
 
 self.addEventListener("message", (event) => {
@@ -8,17 +8,19 @@ self.addEventListener("message", (event) => {
 });
 
 self.addEventListener("install", (event) => {
-  console.log("[ServiceWorker] Install");
-
   event.waitUntil(
     (async () => {
       const cache = await caches.open(CACHE_NAME);
-      // Setting {cache: 'reload'} in the new request will ensure that the response
-      // isn't fulfilled from the HTTP cache; i.e., it will be from the network.
-      await cache.add(new Request(OFFLINE_URL, { cache: "reload" }));
+        return cache.addAll(
+            [
+                '/main.css',
+                '/js/bootstrap.min.js',
+                '/index.html',
+                '/404.html',
+            ]
+        );
     })()
   );
-
   self.skipWaiting();
 });
 
@@ -34,12 +36,10 @@ self.addEventListener("activate", (event) => {
     })()
   );
 
-  // Tell the active service worker to take control of the page immediately.
   self.clients.claim();
 });
 
 self.addEventListener("fetch", (event) => {
-  // console.log('[Service Worker] Fetch', event.request.url);
   if (event.request.mode === "navigate") {
     event.respondWith(
       (async () => {
@@ -51,10 +51,8 @@ self.addEventListener("fetch", (event) => {
           return await fetch(event.request);
         } catch (error) {
           console.log(
-            "[Service Worker] Fetch failed; returning offline page instead.",
             error
           );
-
           const cache = await caches.open(CACHE_NAME);
           return await cache.match(OFFLINE_URL);
         }
