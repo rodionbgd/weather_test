@@ -28,11 +28,16 @@ function installApp() {
             return;
         }
         // Показать запрос на установку.
-        await promptEvent.prompt();
-        // Записать результат в журнал.
-        await promptEvent.userChoice;
-        // prompt() можно вызвать только один раз.
-        window.deferredPrompt = <BeforeInstallPromptEvent><unknown>null;
+        try {
+            await promptEvent.prompt();
+            // Записать результат в журнал.
+            await promptEvent.userChoice;
+            // prompt() можно вызвать только один раз.
+            window.deferredPrompt = <BeforeInstallPromptEvent><unknown>null;
+        }
+        catch (e){
+            console.error(e);
+        }
         installApp.style.display = "none";
         // Скрыть кнопку установки.
     });
