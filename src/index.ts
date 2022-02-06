@@ -14,24 +14,17 @@ function installApp() {
     const installApp = <HTMLButtonElement>document.getElementById("install-app");
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
     window.addEventListener('beforeinstallprompt', (event) => {
-        // Запрет показа информационной мини-панели на мобильных устройствах.
-        // alert("beforeinstallprompt")
         if (isStandalone) {
             event.preventDefault();
         }
-        // Убираем событие, чтобы его можно было активировать позже.
         window.deferredPrompt = <BeforeInstallPromptEvent>event;
         installApp.style.display = "block";
     });
-    if (!isStandalone) {
-        window.dispatchEvent(new Event("beforeinstallprompt"));
-    }
-
     // Installation must be done by a user gesture! Here, the button click
     installApp.addEventListener('click', async () => {
-        installApp.style.display = "none";
         const promptEvent = window.deferredPrompt;
         if (!promptEvent) {
+            installApp.style.display = "none";
             return;
         }
         // Показать запрос на установку.
@@ -40,6 +33,7 @@ function installApp() {
         await promptEvent.userChoice;
         // prompt() можно вызвать только один раз.
         window.deferredPrompt = <BeforeInstallPromptEvent><unknown>null;
+        installApp.style.display = "none";
         // Скрыть кнопку установки.
     });
 
