@@ -3,9 +3,12 @@
     --social-icon1: #e4405f;
 }
 
+.icon-item{
+    display: none;
+}
 .icon-link {
-    padding-right: 7rem;
     display: inline-flex;
+    padding-right: 7rem;
     font-size: 3rem;
     text-decoration: none;
     color: var(--color-icon);
