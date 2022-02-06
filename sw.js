@@ -11,14 +11,7 @@ self.addEventListener("install", (event) => {
   event.waitUntil(
     (async () => {
       const cache = await caches.open(CACHE_NAME);
-        return cache.addAll(
-            [
-                '/main.css',
-                '/js/bootstrap.min.js',
-                '/index.html',
-                '/404.html',
-            ]
-        );
+      await cache.add(new Request(OFFLINE_URL, { cache: "reload" }));
     })()
   );
   self.skipWaiting();
