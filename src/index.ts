@@ -51,13 +51,8 @@ function installApp() {
       installAppEl.style.display = "none";
       return;
     }
-    if (
-      Object.hasOwnProperty.call(promptEvent, "prompt") &&
-      Object.hasOwnProperty.call(promptEvent, "userChoice")
-    ) {
       await promptEvent.prompt();
       await promptEvent.userChoice;
-    }
     window.deferredPrompt = <BeforeInstallPromptEvent>(<unknown>null);
     installAppEl.style.display = "none";
   });
