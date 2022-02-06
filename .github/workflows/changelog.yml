@@ -17,3 +17,5 @@ jobs:
       - name: Changelog editing
         run: |
           npm run version
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
