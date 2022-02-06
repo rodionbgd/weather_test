@@ -3534,12 +3534,11 @@ a:focus {
 }
 
 .icon-link {
+    padding-right: 5rem;
     display: inline-flex;
     font-size: 3rem;
     text-decoration: none;
     color: var(--color-icon);
-    width: 6rem;
-    height: 6rem;
     transition: .5s linear;
     position: relative;
     z-index: 1;
