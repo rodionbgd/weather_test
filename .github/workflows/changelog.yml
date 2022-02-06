@@ -2,17 +2,18 @@ name: Changelog
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - '**'
 
 jobs:
-  version:
+  editing:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Install and Build
+      - name: Install
         run: |
           npm install
+      - name: Changelog editing
+        run: |
           npm run version

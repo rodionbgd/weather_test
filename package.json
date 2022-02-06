@@ -11,7 +11,7 @@
     "dev": "webpack serve --https --node-env development --history-api-fallback",
     "build": "webpack --node-env development",
     "start": "http-server dist",
-    "version": "auto-changelog -p && git add CHANGELOG.md"
+    "version": "auto-changelog  --tag-pattern .+ --hide-credit"
   },
   "husky": {
     "hooks": {
