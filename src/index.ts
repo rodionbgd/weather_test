@@ -36,10 +36,10 @@ function installApp() {
       event.preventDefault();
     }
     window.deferredPrompt = <BeforeInstallPromptEvent>event;
-    installAppEl.style.display = "block";
   });
   if (window.standalone && window.TOUCH) {
     menuCityList.classList.add("menu__city-list_standalone");
+    installAppEl.style.display = "none";
   }
   if(!window.standalone){
     window.dispatchEvent(new Event("beforeinstallprompt"));
