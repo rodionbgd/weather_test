@@ -1,35 +1,38 @@
 const CACHE_NAME = "cache-v1";
 const OFFLINE_URL = "404.html";
 
-window.self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    window.self.skipWaiting();
-  }
+self.addEventListener("message", (event) => {
+    if (event.data && event.data.type === "SKIP_WAITING") {
+        self.skipWaiting();
+    }
 });
 
-window.self.addEventListener("install", (event) => {
+self.addEventListener("install", (event) => {
   event.waitUntil(
     (async () => {
       const cache = await caches.open(CACHE_NAME);
       await cache.add(new Request(OFFLINE_URL, { cache: "reload" }));
     })()
   );
-  window.self.skipWaiting();
+  self.skipWaiting();
 });
 
-window.self.addEventListener("activate", (event) => {
+self.addEventListener("activate", (event) => {
+  console.log("[ServiceWorker] Activate");
   event.waitUntil(
     (async () => {
-      if ("navigationPreload" in window.self.registration) {
-        await window.self.registration.navigationPreload.enable();
+      // Enable navigation preload if it's supported.
+      // See https://developers.google.com/web/updates/2017/02/navigation-preload
+      if ("navigationPreload" in self.registration) {
+        await self.registration.navigationPreload.enable();
       }
     })()
   );
 
-  window.self.clients.claim();
+  self.clients.claim();
 });
 
-window.self.addEventListener("fetch", (event) => {
+self.addEventListener("fetch", (event) => {
   if (event.request.mode === "navigate") {
     event.respondWith(
       (async () => {
@@ -40,8 +43,11 @@ window.self.addEventListener("fetch", (event) => {
           }
           return await fetch(event.request);
         } catch (error) {
+          console.log(
+            error
+          );
           const cache = await caches.open(CACHE_NAME);
-          return cache.match(OFFLINE_URL);
+          return await cache.match(OFFLINE_URL);
         }
       })()
     );
