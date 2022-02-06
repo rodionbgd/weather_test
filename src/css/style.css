@@ -57,17 +57,6 @@ a:focus {
 }
 
 @media (hover: none) and (pointer: coarse) {
-  * {
-    overscroll-behavior-x: contain;
-    scrollbar-width: none;
-    overflow-x: -moz-scrollbars-none;
-    -ms-overflow-style: none;
-  }
-
-  *::-webkit-scrollbar {
-    display: none;
-  }
-
   .header {
     height: 6rem;
   }
@@ -107,6 +96,7 @@ a:focus {
 .hidden {
   display: none !important;
 }
+
 
 .header__title__hover:first-letter {
   display: inline-block;
@@ -212,10 +202,6 @@ a:focus {
     );
   }
 
-  .scroll_standalone {
-    height: 95vh;
-  }
-
   .section-content {
     width: 100%;
     flex-direction: column;
@@ -240,7 +226,6 @@ a:focus {
   .update-time {
     font-size: 0.58em;
   }
-
   .current-temp {
     display: flex;
     flex-direction: column;
@@ -417,7 +402,6 @@ a:focus {
   .update-time {
     font-size: 0.8em;
   }
-
   .current-city-title {
     text-align: center;
     font-size: 2rem;

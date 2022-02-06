@@ -37,7 +37,7 @@
 
 .bg-02d {
   background: linear-gradient(rgba(190, 190, 190, 0.3), rgba(79, 79, 79, 0.9)),
-    url("../images/bg/02d_bg.gif");
+    url("../images/bg/02d_bg.webm");
   background-size: cover;
 }
 

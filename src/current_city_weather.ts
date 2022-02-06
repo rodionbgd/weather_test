@@ -379,7 +379,7 @@ export function setCurrentCityWeather(options: City, el: HTMLDivElement) {
     `;
   cityEl.innerHTML = `
        ${window.TOUCH ? renderHeader(options) : ""}
-       <div class="scroll ${window.standalone ? "scroll_standalone" : ""}">
+       <div class="scroll">
                 <main class="section">
                     <article class="section-content">
                         <section class="current-container">
