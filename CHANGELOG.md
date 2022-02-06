@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [1.0.11](https://github.com/rodionbgd/weather_test/compare/1.0.10...1.0.11)
+
+> 6 February 2022
+
+- changelog update [`b327c9e`](https://github.com/rodionbgd/weather_test/commit/b327c9ec5a18ec29576ed80bd2bdceaa2577cee3)
+- PWA install [`74c5ac7`](https://github.com/rodionbgd/weather_test/commit/74c5ac726129ded4b8fb86cc1fab611fd3f641e3)
+
 #### [1.0.10](https://github.com/rodionbgd/weather_test/compare/1.0.9...1.0.10)
 
 > 6 February 2022
