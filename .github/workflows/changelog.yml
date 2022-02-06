@@ -16,5 +16,5 @@ jobs:
           REPO_NAME: 'rodionbgd/weather_test'
           ACCESS_TOKEN: ${{secrets.GITHUB_TOKEN}}
           PATH: 'CHANGELOG.md'
-          COMMIT_MESSAGE: 'PWA added'
+          COMMIT_MESSAGE: 'Manifest editing'
           TYPE: 'feat:Feature'
