@@ -9,12 +9,15 @@ Swiper.use([Pagination, History]);
 
 // window.TOUCH = true;
 window.TOUCH = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+window.standalone = window.matchMedia('(display-mode: standalone)').matches;
 
 function installApp() {
     const installApp = <HTMLButtonElement>document.getElementById("install-app");
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    if(window.standalone && window.TOUCH){
+        menuCityList.classList.add("menu__city-list_standalone");
+    }
     window.addEventListener('beforeinstallprompt', (event) => {
-        if (isStandalone) {
+        if (window.standalone) {
             event.preventDefault();
         }
         window.deferredPrompt = <BeforeInstallPromptEvent>event;

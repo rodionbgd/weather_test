@@ -1,6 +1,7 @@
 declare global {
   interface Window {
     TOUCH: boolean;
+    standalone:boolean,
     WE: any;
     getLocation: (force?: boolean) => void;
     google: any;

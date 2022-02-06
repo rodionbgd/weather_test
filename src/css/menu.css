@@ -66,6 +66,9 @@
         -ms-overflow-style: none;
     }
 
+    .menu__city-list_standalone{
+        height: 90vh;
+    }
     .menu__city-list::-webkit-scrollbar {
         display: none;
     }
