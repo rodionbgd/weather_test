@@ -31,9 +31,6 @@ function installApp() {
   const installAppEl = <HTMLButtonElement>(
     document.getElementById("install-app")
   );
-  if (window.standalone && window.TOUCH) {
-    menuCityList.classList.add("menu__city-list_standalone");
-  }
   window.addEventListener("beforeinstallprompt", (event) => {
     if (window.standalone) {
       event.preventDefault();
@@ -41,6 +38,12 @@ function installApp() {
     window.deferredPrompt = <BeforeInstallPromptEvent>event;
     installAppEl.style.display = "block";
   });
+  if (window.standalone && window.TOUCH) {
+    menuCityList.classList.add("menu__city-list_standalone");
+  }
+  if(!window.standalone){
+    window.dispatchEvent(new Event("beforeinstallprompt"));
+  }
   installAppEl.addEventListener("click", async () => {
     const promptEvent = window.deferredPrompt;
     if (!promptEvent) {
