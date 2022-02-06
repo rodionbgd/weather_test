@@ -304,7 +304,7 @@ define(['./workbox-37481be9'], (function (workbox) { 'use strict';
     "revision": "08090d86357d2d05b501f17793da0721"
   }, {
     "url": "manifest.json",
-    "revision": "90716e0e7b8af0ba294161cec0bba28f"
+    "revision": "dd2e0dead78b19bb8047ef549188f417"
   }, {
     "url": "sw.js",
     "revision": "f124fc1b5cd201d2b4b5bf74e3486d72"
