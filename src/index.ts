@@ -43,6 +43,7 @@ function installApp() {
   }
   if(!window.standalone){
     window.dispatchEvent(new Event("beforeinstallprompt"));
+    installAppEl.style.display = "initial";
   }
   installAppEl.addEventListener("click", async () => {
     const promptEvent = window.deferredPrompt;
