@@ -1,0 +1,17 @@
+{{#each releases}}
+    {{title}}
+    {{href}}
+    {{isoDate}}
+    {{niceDate}}
+    {{#each fixes}}
+       {{commit}}
+       {{commit.subject}}
+       {{id}}
+       {{href}}
+    {{/each}}
+    {{#each commits}}
+        {{shorthash}}
+        {{subject}}
+        {{href}}
+    {{/each}}
+{{/each}}
