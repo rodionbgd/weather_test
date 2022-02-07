@@ -9,7 +9,7 @@ Swiper.use([Pagination, History]);
 
 // window.TOUCH = true;
 window.TOUCH = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-window.standalone = window.matchMedia("(lay-mode: standalone)").matches;
+window.standalone = window.matchMedia("(display-mode: standalone)").matches;
 
 export const store = configureStore({
   reducer: {
