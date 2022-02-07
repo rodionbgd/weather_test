@@ -122,7 +122,7 @@ export function initializeElements() {
   cityListEl = <HTMLDivElement>document.getElementById("city-list");
   showCity = <HTMLDivElement>document.getElementById("show-last-city");
   updateLocation = <HTMLElement>document.getElementById("update-location");
-  installApp();
+  // installApp();
   addGoogleScript();
   listeners();
   if (window.TOUCH) {
