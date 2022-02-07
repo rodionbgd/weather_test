@@ -3561,7 +3561,7 @@ a:focus {
   z-index: 1;
 }
 
-@media all and (display-mode: standalone){
+@media all and (display-mode: fullscreen){
   .icon-link{
     color: black;
   }
