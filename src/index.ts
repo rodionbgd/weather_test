@@ -31,7 +31,7 @@ function installApp() {
   const installAppBtn = <HTMLButtonElement>(
     document.getElementById("install-app")
   );
-  let deferredPrompt:BeforeInstallPromptEvent;
+  let deferredPrompt: BeforeInstallPromptEvent;
   if (window.standalone && window.TOUCH) {
     menuCityList.classList.add("menu__city-list_standalone");
   }
@@ -47,14 +47,14 @@ function installApp() {
       installAppBtn.style.display = "none";
       return;
     }
-      await deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(()=>{});
-    deferredPrompt = <BeforeInstallPromptEvent><unknown>null;
+    await deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => {});
+    deferredPrompt = <BeforeInstallPromptEvent>(<unknown>null);
     installAppBtn.style.display = "none";
   });
 
   window.addEventListener("appinstalled", () => {
-    window.deferredPrompt = <BeforeInstallPromptEvent><unknown>null;
+    window.deferredPrompt = <BeforeInstallPromptEvent>(<unknown>null);
   });
 
   if ("serviceWorker" in navigator) {
@@ -75,6 +75,7 @@ export function createSwiper() {
       dynamicMainBullets: 3,
     },
     watchOverflow: true,
+    noSwiping: true,
     // history: {
     //     key: "city",
     //     root: originLocation,
