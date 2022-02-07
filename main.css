@@ -3552,16 +3552,19 @@ a:focus {
 }
 
 .icon-link {
-  display: block;
-  position: fixed;
-  top: 1rem;
-  right: 3rem;
-  margin: 0 auto;
+  bottom: 0;
+  padding-right: 7rem;
   font-size: 3rem;
   text-decoration: none;
   color: var(--color-icon);
   transition: 0.5s linear;
   z-index: 1;
+}
+
+@media all and (display-mode: standalone){
+  .icon-link{
+    color: black;
+  }
 }
 
 .icon-link:hover,
