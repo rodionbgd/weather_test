@@ -9,7 +9,7 @@ Swiper.use([Pagination, History]);
 
 // window.TOUCH = true;
 window.TOUCH = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-window.standalone = (navigator as any).standalone || (window.screen.height-document.documentElement.clientHeight<40);
+window.standalone = window.matchMedia('fullscreen').matches;
 
 export const store = configureStore({
   reducer: {
