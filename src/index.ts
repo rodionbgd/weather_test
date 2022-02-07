@@ -32,6 +32,7 @@ function installApp() {
     document.getElementById("install-app")
   );
   let deferredPrompt: BeforeInstallPromptEvent;
+  alert(window.standalone);
   if (window.standalone && window.TOUCH) {
     menuCityList.classList.add("menu__city-list_standalone");
   }
@@ -121,7 +122,7 @@ export function initializeElements() {
   cityListEl = <HTMLDivElement>document.getElementById("city-list");
   showCity = <HTMLDivElement>document.getElementById("show-last-city");
   updateLocation = <HTMLElement>document.getElementById("update-location");
-  // installApp();
+  installApp();
   addGoogleScript();
   listeners();
   if (window.TOUCH) {

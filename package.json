@@ -12,7 +12,6 @@
     "build": "webpack --node-env development",
     "start": "http-server dist",
     "version": "auto-changelog  --tag-pattern .+ --hide-credit && git add CHANGELOG.md && git commit -am \"changelog update\" && git push origin"
-
   },
   "husky": {
     "hooks": {
