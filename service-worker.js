@@ -304,7 +304,7 @@ define(['./workbox-37481be9'], (function (workbox) { 'use strict';
     "revision": "90716e0e7b8af0ba294161cec0bba28f"
   }, {
     "url": "sw.js",
-    "revision": "607040a4c0041d478f0393bb18741806"
+    "revision": "198a0fd6037c4783602c41d4020275d9"
   }], {});
 
 }));
