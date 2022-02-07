@@ -40,7 +40,7 @@ function installApp() {
       event.preventDefault();
     }
     deferredPrompt = <BeforeInstallPromptEvent>event;
-    installAppBtn.style.display = "block";
+    installAppBtn.style.display = "inline-flex";
   });
   installAppBtn.addEventListener("click", async () => {
     if (!deferredPrompt) {
