@@ -295,7 +295,7 @@ define(['./workbox-37481be9'], (function (workbox) { 'use strict';
     "revision": "5450f1348e9a5c59a5d0bdace1cc19d2"
   }, {
     "url": "main.bundle.js",
-    "revision": "2954ecb606e0f64f40f1c9a9b9dae91f"
+    "revision": "53bc9d978201f51d7eb316c7af76c828"
   }, {
     "url": "main.css",
     "revision": "5c8493f66a5c5c3f05d09b15faacfd58"
