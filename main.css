@@ -3551,11 +3551,8 @@ a:focus {
   --social-icon1: #e4405f;
 }
 
-.icon-item {
-  display: none;
-}
 .icon-link {
-  display: inline-flex;
+  display: none;
   padding-right: 7rem;
   font-size: 3rem;
   text-decoration: none;
