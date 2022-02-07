@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [1.1.3](https://github.com/rodionbgd/weather_test/compare/1.1.2...1.1.3)
+
+> 7 February 2022
+
+- changelog update [`08a893d`](https://github.com/rodionbgd/weather_test/commit/08a893df90821b6b131b9ee8639bedd9beeccd8e)
+- Убрана загрузка sw.js [`6b08edf`](https://github.com/rodionbgd/weather_test/commit/6b08edf9b34e89b26757af5956e2d45996d00724)
+
 #### [1.1.2](https://github.com/rodionbgd/weather_test/compare/1.1.1...1.1.2)
 
 > 7 February 2022
