@@ -295,10 +295,10 @@ define(['./workbox-37481be9'], (function (workbox) { 'use strict';
     "revision": "5450f1348e9a5c59a5d0bdace1cc19d2"
   }, {
     "url": "main.bundle.js",
-    "revision": "53bc9d978201f51d7eb316c7af76c828"
+    "revision": "87c8486d8cd8432cf44793c977506792"
   }, {
     "url": "main.css",
-    "revision": "5c8493f66a5c5c3f05d09b15faacfd58"
+    "revision": "595e0cb64a32d854b5009e3311bc23af"
   }, {
     "url": "manifest.json",
     "revision": "90716e0e7b8af0ba294161cec0bba28f"
